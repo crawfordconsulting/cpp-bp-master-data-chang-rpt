@@ -1,0 +1,153 @@
+<mvc:View
+    controllerName="cppbpmasterdatachangerpt.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:layout="sap.ui.layout"
+    height="100%"
+>
+    <f:DynamicPage
+        id="dynamicPage"
+        fitContent="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="dynamicPageTitle">
+                <f:heading>
+                    <Title text="{i18n>title}" />
+                </f:heading>
+                <f:actions>
+                    <Image
+                        id="logo"
+                        height="40px"
+                        decorative="false"
+                    />
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader>
+
+                
+                <Panel
+                    id="selectionPanel"
+                    headerText="Business Partner Change Selections"
+                    expandable="false"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <VBox
+                            id="selectionVBox"
+                            class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <layout:Grid
+                                id="selectionGrid"
+                                hSpacing="0"
+                                vSpacing="0"
+                                defaultSpan="XL4 L4 M6 S12"
+                            >
+                            <CheckBox id="chkOrgId"       text="BP: Organization and ID Number" selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkGeneral"     text="BP: General"                    selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkAddress"     text="BP: Address"                    selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkAddrType1"   text="Business Address Type 1"        selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkAddrType2"   text="Business Address Type 2"        selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkAddrType3"   text="Business Address Type 3"        selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkTaxNumber"   text="Tax Number"                     selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkVendorGen"   text="Vendor General"                 selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkCustomerGen" text="Customer General"               selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkPraVendor"   text="PRA Vendor"                     selected="false" select="onSelectionChange" />
+                            <CheckBox id="chkPraCustomer" text="PRA Customer"                   selected="false" select="onSelectionChange" />
+                            </layout:Grid>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                
+                <Panel
+                    id="changeDocFilterPanel"
+                    headerText="Change Document Filters"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <smartFilterBar:SmartFilterBar
+                            id="smartFilterBar"
+                            entitySet="xCPPxC_BP_MD_CHNG_RPT"
+                            persistencyKey="BPMDChangeFilter"
+                            useToolbar="false"
+                            showFilterConfiguration="false"
+                            search="onGoPress"
+                        >
+                            <smartFilterBar:controlConfiguration>
+                               
+                                <smartFilterBar:ControlConfiguration key="bpartnerno"      visible="true" label="Business Partner Number" index="10" />
+                                <smartFilterBar:ControlConfiguration key="fromdate"        visible="true" label="From Date"               index="20" />
+                                <smartFilterBar:ControlConfiguration key="fromtime"        visible="true" label="From Time"               index="30" />
+                                <smartFilterBar:ControlConfiguration key="todate"          visible="true" label="To Date"                 index="40" />
+                                <smartFilterBar:ControlConfiguration key="totime"          visible="true" label="To Time"                 index="50" />
+                                <smartFilterBar:ControlConfiguration key="changedby"       visible="true" label="Changed By"              index="60" />
+                                <smartFilterBar:ControlConfiguration key="ChgTyp"          visible="true" label="Type of Change"          index="70" />
+                                <smartFilterBar:ControlConfiguration key="transactioncode" visible="true" label="Transaction Code"        index="80" />
+                                <smartFilterBar:ControlConfiguration key="fielddescription" visible="true" label="Field Description"      index="90" />
+
+                               
+                                <smartFilterBar:ControlConfiguration key="chkboxId"          visible="false" />
+                                <smartFilterBar:ControlConfiguration key="distechinfochkbox" visible="false" />
+                            </smartFilterBar:controlConfiguration>
+                        </smartFilterBar:SmartFilterBar>
+
+                        <CheckBox
+                            id="displayTechnicalInfo"
+                            text="Display Technical Information"
+                            selected="false"
+                            select="onTechnicalInfoChange"
+                            class="sapUiSmallMarginTop sapUiSmallMarginBegin"
+                        />
+                    </content>
+                </Panel>
+
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <VBox
+                id="tableContainer"
+                height="100%"
+                fitContainer="true"
+            >
+                <FlexBox
+                    id="tableContainerBox"
+                    direction="Column"
+                    height="100%"
+                    fitContainer="true"
+                >
+                    <smartTable:SmartTable
+                        id="mainSmartTable"
+                        entitySet="xCPPxC_BP_MD_CHNG_RPT"
+                        smartFilterId="smartFilterBar"
+                        tableType="Table"
+                        enableAutoColumnWidth="true"
+                        header="Business Partner Master Data Change Report"
+                        showRowCount="true"
+                        enableAutoBinding="false"
+                        useVariantManagement="true"
+                        useTablePersonalisation="true"
+                        persistencyKey="BP_MD_SMARTTABLE"
+                        requestAtLeastFields="bpartnerno,changedocnr,objecttype,changedby,firstname,lastname,changedon,chgtime,transactioncode,tablename,tabledescription,fieldname,fielddescription,chngtxt,oldvalue,newvalue"
+                        initiallyVisibleFields="bpartnerno,changedby,firstname,lastname,changedon,chgtime,transactioncode,tabledescription,fielddescription,chngtxt,oldvalue,newvalue"
+                        beforeRebindTable="onBeforeRebindTable"
+                        height="100%"
+                    >
+                        <smartTable:layoutData>
+                            <FlexItemData growFactor="1" />
+                        </smartTable:layoutData>
+                    </smartTable:SmartTable>
+                </FlexBox>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
